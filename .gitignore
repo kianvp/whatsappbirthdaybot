@@ -1,0 +1,8 @@
+node_modules/
+sessions/
+*.db
+.env
+.wwebjs_auth/
+.wwebjs_cache/
+.claude/
+data.db

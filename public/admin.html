@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Admin — BirthdayBot</title>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">🎂 BirthdayBot <span class="badge badge-red" style="margin-left:8px">Admin</span></div>
+    <div class="nav-links">
+      <a href="/dashboard.html" style="font-size:14px">My Dashboard</a>
+      <button class="btn btn-secondary btn-sm" onclick="logout()">Log out</button>
+    </div>
+  </nav>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <button class="sidebar-link active" onclick="showTab('stats', this)">📊 Stats</button>
+      <button class="sidebar-link" onclick="showTab('users', this)">👥 Users</button>
+      <button class="sidebar-link" onclick="showTab('logs', this)">📋 Message Logs</button>
+    </aside>
+
+    <main class="main-content">
+      <!-- Stats -->
+      <div id="tab-stats">
+        <div class="page-header"><h1>Admin Overview</h1></div>
+        <div class="stats-grid" id="statsGrid"></div>
+        <div class="card" style="margin-top:16px">
+          <p style="font-size:14px;color:var(--gray)">Active sessions, paying customers, and message stats update in real time.</p>
+        </div>
+      </div>
+
+      <!-- Users -->
+      <div id="tab-users" style="display:none">
+        <div class="page-header" style="display:flex;align-items:center;justify-content:space-between">
+          <div><h1>Users</h1><p>Manage all customer accounts</p></div>
+          <button class="btn btn-secondary btn-sm" onclick="loadUsers()">🔄 Refresh</button>
+        </div>
+        <div class="card table-wrap">
+          <table id="usersTable">
+            <thead>
+              <tr>
+                <th>User</th><th>Plan</th><th>Status</th><th>WhatsApp</th>
+                <th>Groups</th><th>Birthdays</th><th>Joined</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="usersBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Logs -->
+      <div id="tab-logs" style="display:none">
+        <div class="page-header"><h1>Message Logs</h1><p>Last 100 birthday messages sent</p></div>
+        <div class="card table-wrap">
+          <table>
+            <thead>
+              <tr><th>Time</th><th>User</th><th>Group</th><th>Birthday Person</th><th>Status</th></tr>
+            </thead>
+            <tbody id="logsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast"></div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Dashboard — BirthdayBot</title>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">🎂 BirthdayBot</div>
+    <div class="nav-links">
+      <span id="navPlan" class="badge badge-green"></span>
+      <span id="navName" style="font-size:14px;font-weight:500"></span>
+      <button class="btn btn-secondary btn-sm" onclick="logout()">Log out</button>
+    </div>
+  </nav>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <button class="sidebar-link active" data-page="overview" onclick="showPage('overview', this)">📊 Overview</button>
+      <button class="sidebar-link" data-page="whatsapp" onclick="showPage('whatsapp', this)">📱 WhatsApp</button>
+      <button class="sidebar-link" data-page="groups" onclick="showPage('groups', this)">👥 Groups</button>
+      <button class="sidebar-link" data-page="birthdays" onclick="showPage('birthdays', this)">🎂 Birthdays</button>
+      <button class="sidebar-link" data-page="billing" onclick="showPage('billing', this)">💳 Billing</button>
+    </aside>
+
+    <main class="main-content">
+      <!-- Overview -->
+      <div id="page-overview">
+        <div class="page-header">
+          <h1>Overview</h1>
+          <p>Your birthday bot at a glance</p>
+        </div>
+        <div class="stats-grid" id="overviewStats"></div>
+        <div class="card">
+          <h3 style="margin-bottom:16px;font-size:16px">🎂 Upcoming birthdays</h3>
+          <div id="upcomingList"><p style="color:var(--gray);font-size:14px">Loading...</p></div>
+        </div>
+      </div>
+
+      <!-- WhatsApp -->
+      <div id="page-whatsapp" style="display:none">
+        <div class="page-header">
+          <h1>WhatsApp Connection</h1>
+          <p>Link your WhatsApp number to the bot</p>
+        </div>
+        <div class="card">
+          <div id="waStatus" style="margin-bottom:20px"></div>
+          <div id="waQR" style="display:none" class="qr-container">
+            <p style="margin-bottom:16px;font-size:14px;color:var(--gray)">Scan this QR code with WhatsApp on your phone</p>
+            <img id="qrImage" src="" alt="QR Code"/>
+            <p class="qr-instructions">Open WhatsApp → Settings → Linked Devices → Link a Device</p>
+          </div>
+          <div id="waActions" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px"></div>
+        </div>
+      </div>
+
+      <!-- Groups -->
+      <div id="page-groups" style="display:none">
+        <div class="page-header" style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <h1>Groups</h1>
+            <p>Manage your WhatsApp groups</p>
+          </div>
+          <button class="btn btn-primary" onclick="openAddGroupModal()">+ Add Group</button>
+        </div>
+        <div id="groupsList"></div>
+      </div>
+
+      <!-- Birthdays -->
+      <div id="page-birthdays" style="display:none">
+        <div class="page-header" style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <h1>Birthdays</h1>
+            <p id="birthdayGroupLabel">Select a group to manage birthdays</p>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <select id="groupSelect" class="form-group" style="margin:0;min-width:160px" onchange="loadBirthdays()">
+              <option value="">— Select group —</option>
+            </select>
+            <button class="btn btn-primary" onclick="openAddBirthdayModal()">+ Add Birthday</button>
+          </div>
+        </div>
+        <div id="birthdaysList"></div>
+      </div>
+
+      <!-- Billing -->
+      <div id="page-billing" style="display:none">
+        <div class="page-header">
+          <h1>Billing</h1>
+          <p>Manage your subscription</p>
+        </div>
+        <div id="billingContent"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Add Group Modal -->
+  <div id="addGroupModal" class="modal-overlay" style="display:none">
+    <div class="modal">
+      <h3>Add WhatsApp Group</h3>
+      <div id="groupPickerList" style="max-height:300px;overflow-y:auto;margin-bottom:16px"></div>
+      <p style="font-size:13px;color:var(--gray);margin-bottom:12px">
+        Don't see your group? Make sure your WhatsApp is connected, then
+        <a href="#" onclick="syncGroups();return false">sync groups</a>.
+      </p>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('addGroupModal')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Group Modal -->
+  <div id="editGroupModal" class="modal-overlay" style="display:none">
+    <div class="modal">
+      <h3>Edit Group</h3>
+      <input type="hidden" id="editGroupId"/>
+      <div class="form-group">
+        <label>Custom birthday message</label>
+        <textarea id="editGroupMessage" placeholder="🎂 Happy Birthday {name}! 🎉 Wishing you an amazing day!"></textarea>
+        <p style="font-size:12px;color:var(--gray);margin-top:4px">Use <code>{name}</code> as placeholder for the person's name.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('editGroupModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveGroup()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Birthday Modal -->
+  <div id="addBirthdayModal" class="modal-overlay" style="display:none">
+    <div class="modal">
+      <h3>Add Birthday</h3>
+      <div class="form-group">
+        <label>Person's name</label>
+        <input type="text" id="bdName" placeholder="e.g. Sarah"/>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+        <div class="form-group">
+          <label>Day</label>
+          <input type="number" id="bdDay" min="1" max="31" placeholder="15"/>
+        </div>
+        <div class="form-group">
+          <label>Month</label>
+          <select id="bdMonth">
+            <option value="">Month</option>
+            <option value="1">January</option><option value="2">February</option>
+            <option value="3">March</option><option value="4">April</option>
+            <option value="5">May</option><option value="6">June</option>
+            <option value="7">July</option><option value="8">August</option>
+            <option value="9">September</option><option value="10">October</option>
+            <option value="11">November</option><option value="12">December</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Year <span style="color:var(--gray)">(optional)</span></label>
+          <input type="number" id="bdYear" min="1900" max="2020" placeholder="1990"/>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('addBirthdayModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="addBirthday()">Add Birthday</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

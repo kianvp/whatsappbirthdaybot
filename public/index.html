@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>BirthdayBot — WhatsApp Birthday Reminders</title>
+  <link rel="stylesheet" href="/css/style.css"/>
+  <style>
+    .how-it-works { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
+    .how-it-works h2 { text-align: center; font-size: 32px; margin-bottom: 48px; }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+    .step { text-align: center; padding: 24px; }
+    .step-num { width: 48px; height: 48px; background: var(--green); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; margin: 0 auto 16px; }
+    .step h3 { font-size: 16px; margin-bottom: 8px; }
+    .step p { font-size: 14px; color: var(--gray); }
+    footer { background: var(--dark); color: #9CA3AF; text-align: center; padding: 32px 24px; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">🎂 BirthdayBot</div>
+    <div class="nav-links">
+      <a href="#pricing" style="font-size:14px;font-weight:500;color:var(--dark)">Pricing</a>
+      <a href="/login.html"><button class="btn btn-secondary">Log in</button></a>
+      <a href="/signup.html"><button class="btn btn-primary">Get started free</button></a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>Never miss a birthday<br/>in your <span>WhatsApp group</span></h1>
+    <p>Connect your WhatsApp group, add birthdays, and BirthdayBot sends a personalized message automatically every year — forever.</p>
+    <div class="hero-cta">
+      <a href="/signup.html"><button class="btn btn-primary btn-large">🚀 Start for free</button></a>
+      <a href="#how-it-works"><button class="btn btn-secondary btn-large">See how it works</button></a>
+    </div>
+  </section>
+
+  <section class="features">
+    <h2>Everything you need</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3>Any WhatsApp Group</h3>
+        <p>Works with any group you're a member of. No special permissions needed — just link your account.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔄</div>
+        <h3>Runs 24/7, 365</h3>
+        <p>Messages send at 8 AM automatically every year. Set it up once and forget it.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✍️</div>
+        <h3>Custom Messages</h3>
+        <p>Personalise the birthday message for each group. Use <code>{name}</code> as a placeholder.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👥</div>
+        <h3>Multiple Groups</h3>
+        <p>Manage birthdays across your school friends, family, work team — all from one dashboard.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎂</div>
+        <h3>Age Countdown</h3>
+        <p>Add birth years and the bot includes the person's age in the message automatically.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Easy Setup</h3>
+        <p>Just scan a QR code to link your WhatsApp — takes less than 2 minutes to get started.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-it-works" id="how-it-works">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Sign up for free</h3>
+        <p>Create your account in seconds — no credit card required for the free plan.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Link your WhatsApp</h3>
+        <p>Scan a QR code in your dashboard to connect your WhatsApp number.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Pick your groups</h3>
+        <p>Select which WhatsApp groups you want birthday messages sent to.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Add birthdays</h3>
+        <p>Enter names and dates. The bot handles the rest — every year, automatically.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing">
+    <h2>Simple, transparent pricing</h2>
+    <p class="pricing-subtitle">Start free. Upgrade when you need more.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-name">Free</div>
+        <div class="pricing-price">$0<span>/mo</span></div>
+        <div class="pricing-desc">Perfect for trying it out</div>
+        <ul class="pricing-features">
+          <li>2 WhatsApp groups</li>
+          <li>15 birthdays total</li>
+          <li>Default message template</li>
+          <li>Daily birthday checks</li>
+        </ul>
+        <a href="/signup.html"><button class="btn btn-secondary" style="width:100%">Get started free</button></a>
+      </div>
+
+      <div class="pricing-card featured">
+        <span class="pricing-badge">MOST POPULAR</span>
+        <div class="pricing-name">Pro</div>
+        <div class="pricing-price">$7<span>/mo</span></div>
+        <div class="pricing-desc">For active group admins</div>
+        <ul class="pricing-features">
+          <li>10 WhatsApp groups</li>
+          <li>Unlimited birthdays</li>
+          <li>Custom message per group</li>
+          <li>Age in message (birth year)</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="/signup.html"><button class="btn btn-primary" style="width:100%">Start Pro</button></a>
+      </div>
+
+      <div class="pricing-card">
+        <div class="pricing-name">Business</div>
+        <div class="pricing-price">$19<span>/mo</span></div>
+        <div class="pricing-desc">For teams and organisations</div>
+        <ul class="pricing-features">
+          <li>Unlimited groups</li>
+          <li>Unlimited birthdays</li>
+          <li>Custom messages</li>
+          <li>Message send logs</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="/signup.html"><button class="btn btn-secondary" style="width:100%">Start Business</button></a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2024 BirthdayBot. Made with 🎂 · <a href="/login.html" style="color:inherit">Log in</a> · <a href="/signup.html" style="color:inherit">Sign up</a></p>
+  </footer>
+</body>
+</html>
