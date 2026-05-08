@@ -20,6 +20,29 @@ export default function whatsappRoutes(db, botManager) {
     res.json({ state, qr });
   });
 
+  // Send a test birthday message to a specific group
+  router.post('/test', requireAuth(db), async (req, res) => {
+    const { groupId } = req.body;
+    if (!groupId) return res.status(400).json({ error: 'groupId is required' });
+
+    const group = await db.prepare(
+      'SELECT * FROM groups WHERE id = ? AND user_id = ?'
+    ).get(groupId, req.user.id);
+
+    if (!group) return res.status(404).json({ error: 'Group not found' });
+
+    const DEFAULT_MESSAGE = `🎂 Happy Birthday {name}! 🎉 Wishing you an incredible day filled with joy and celebration! From all of us in this group, have an amazing birthday! 🥳`;
+    const template = group.custom_message || DEFAULT_MESSAGE;
+    const message = template.replace('{name}', 'John (turning 30)');
+
+    try {
+      await botManager.sendMessage(req.user.id, group.group_jid, message);
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   router.post('/disconnect', requireAuth(db), async (req, res) => {
     await botManager.stopSession(req.user.id);
     res.json({ success: true });

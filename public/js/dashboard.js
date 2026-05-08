@@ -198,6 +198,7 @@ function renderGroups() {
         <td style="color:var(--gray);font-size:13px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${g.custom_message || '<em>Default</em>'}</td>
         <td style="display:flex;gap:8px">
           <button class="btn btn-secondary btn-sm" onclick="openEditGroup(${g.id}, \`${(g.custom_message||'').replace(/`/g,'\\`')}\`)">Edit</button>
+          <button class="btn btn-secondary btn-sm" onclick="testGroup(${g.id}, '${g.group_name.replace(/'/g,"\\'")}')">🧪 Test</button>
           <button class="btn btn-danger btn-sm" onclick="deleteGroup(${g.id})">Remove</button>
         </td>
       </tr>`).join('')}
@@ -247,6 +248,16 @@ async function deleteGroup(id) {
     await API.delete('/groups/' + id);
     await loadGroups();
     toast('Group removed', '');
+  } catch (err) {
+    toast(err.message, 'error');
+  }
+}
+
+async function testGroup(id, name) {
+  if (!confirm(`Send a test birthday message to "${name}"?`)) return;
+  try {
+    await API.post('/whatsapp/test', { groupId: id });
+    toast(`Test message sent to ${name}! 🎉`, 'success');
   } catch (err) {
     toast(err.message, 'error');
   }
