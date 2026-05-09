@@ -3,8 +3,8 @@ import cron from 'node-cron';
 const DEFAULT_MESSAGE = `🎂 Happy Birthday {name}! 🎉 Wishing you an incredible day filled with joy and celebration! From all of us in this group, have an amazing birthday! 🥳`;
 
 export function startScheduler(db, botManager) {
-  cron.schedule('0 8 * * *', () => sendBirthdayMessages(db, botManager));
-  console.log('Birthday scheduler started — runs daily at 8:00 AM');
+  cron.schedule('0 0 * * *', () => sendBirthdayMessages(db, botManager));
+  console.log('Birthday scheduler started — runs daily at 12:00 AM midnight');
 }
 
 export async function sendBirthdayMessages(db, botManager) {
